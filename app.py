@@ -11,7 +11,26 @@ def classify():
     filename = request.args.get("filename")
     c = Classifier()
     res = c.classify_image(filename)
-    return jsonify({"results":res})
+    formatted = _format_results(res)
+    return jsonify(formatted)
+
+
+def _format_results(results):
+    """
+    Turn raw output of classifier into something more friendly    
+    """
+    ret = []
+    for result in results:
+        class_id = result.split(' ')[0]
+        class_name = ' '.join(result.split(' ')[1:])
+        # TODO: Get this out of the classifier
+        probability = 0.0
+        obj = {}
+        obj["class_id"] = class_id
+        obj["class_name"] = class_name 
+        obj["probability"] = probability 
+        ret.append(obj)
+    return ret
 
 if __name__ == '__main__':
     app.run(debug=True)
