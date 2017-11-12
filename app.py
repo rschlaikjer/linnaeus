@@ -26,8 +26,8 @@ def _format_results(results):
         # TODO: Get this out of the classifier
         probability = 0.0
         obj = {}
-        obj["class_id"] = class_id
-        obj["class_name"] = class_name 
+        obj["classId"] = class_id
+        obj["className"] = class_name 
         obj["probability"] = probability 
         ret.append(obj)
     return ret
