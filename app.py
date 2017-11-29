@@ -21,10 +21,9 @@ def _format_results(results):
     """
     ret = []
     for result in results:
-        class_id = result.split(' ')[0]
-        class_name = ' '.join(result.split(' ')[1:])
-        # TODO: Get this out of the classifier
-        probability = 0.0
+        class_id = result['class_name'].split(' ')[0]
+        class_name = ' '.join(result['class_name'].split(' ')[1:])
+        probability = str(result['probability'])
         obj = {}
         obj["classId"] = class_id
         obj["className"] = class_name 

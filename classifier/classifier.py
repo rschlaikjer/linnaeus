@@ -46,6 +46,14 @@ class Classifier(object):
         labels_file = caffe_root + 'data/ilsvrc12/synset_words.txt'
         labels = np.loadtxt(labels_file, str, delimiter='\t')
         srtd = output_prob.argsort()
-        # TODO: Return probabilities with labels
-        top_ten = labels[srtd[:-10:-1]]
-        return list(top_ten)
+        top_ten = srtd[:-10:-1]
+        ret = []
+        for idx in top_ten:
+            class_name = labels[idx]
+            probability = output['prob'][0][idx]
+            ret.append({
+                "class_name": class_name,
+                "probability": probability
+            })
+        # top_ten_labels = labels[srtd[:-10:-1]]
+        return list(ret)
