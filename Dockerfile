@@ -30,5 +30,6 @@ RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 
 WORKDIR /workspace
 COPY . /workspace
+RUN pip install -r requirements.txt
 
 CMD python app.py
