@@ -17,7 +17,7 @@ def classify():
 
 def _format_results(results):
     """
-    Turn raw output of classifier into something more friendly    
+    Turn raw output of classifier into something more friendly
     """
     ret = []
     for result in results:
@@ -26,10 +26,10 @@ def _format_results(results):
         probability = str(result['probability'])
         obj = {}
         obj["classId"] = class_id
-        obj["className"] = class_name 
-        obj["probability"] = probability 
+        obj["className"] = class_name
+        obj["probability"] = probability
         ret.append(obj)
     return ret
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
