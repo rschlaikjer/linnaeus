@@ -1,7 +1,9 @@
-from flask import Flask
-from flask import request
-from flask import jsonify
 import json
+import os
+import tempfile
+
+from flask import Flask, request, jsonify
+
 from classifier.classifier import Classifier
 
 app = Flask(__name__)
@@ -9,14 +11,15 @@ app = Flask(__name__)
 @app.route('/classify', methods=['POST'])
 def classify():
     tmpfd, tmpfile = tempfile.mkstemp()
-    tmpfd.write(request.data)
+    request.get_data()
+    os.write(tmpfd, request.data)
     try:
         c = Classifier()
         res = c.classify_image(tmpfile)
         formatted = _format_results(res)
         return jsonify(formatted)
     finally:
-        tmpfd.close()
+        os.close(tmpfd)
 
 
 def _format_results(results):
