@@ -8,18 +8,20 @@ from classifier.classifier import Classifier
 
 app = Flask(__name__)
 
+c = Classifier()
+
 @app.route('/classify', methods=['POST'])
 def classify():
     tmpfd, tmpfile = tempfile.mkstemp()
     request.get_data()
     os.write(tmpfd, request.data)
     try:
-        c = Classifier()
         res = c.classify_image(tmpfile)
         formatted = _format_results(res)
         return jsonify(formatted)
     finally:
         os.close(tmpfd)
+        os.unlink(tmpfile)
 
 
 def _format_results(results):
