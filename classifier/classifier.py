@@ -1,3 +1,4 @@
+import os
 import caffe
 import numpy as np
 import sys
@@ -10,11 +11,16 @@ class Classifier(object):
         Returns a map of class -> probability for image fname
         """
         # TODO: Conf file
-        caffe_root = "/home/malcolm/Projects/caffe/"
-        sys.path.insert(0, caffe_root + 'python')
+        caffe_root = os.getenv('CAFFE_ROOT')
+        sys.path.insert(0, os.path.join(caffe_root, 'python'))
         caffe.set_mode_cpu()
-        model_def = caffe_root + 'models/bvlc_reference_caffenet/deploy.prototxt'
-        model_weights = caffe_root + 'models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel'
+        model_def = os.path.join(
+            caffe_root, 'models/bvlc_reference_caffenet/deploy.prototxt'
+        )
+        model_weights = os.path.join(
+            caffe_root,
+            'models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel'
+        )
         net = caffe.Net(model_def,      # defines the structure of the model
                         model_weights,  # contains the trained weights
                         caffe.TEST)     # use test mode (e.g., don't perform dropout)
@@ -23,7 +29,7 @@ class Classifier(object):
         mu = np.load(caffe_root + 'python/caffe/imagenet/ilsvrc_2012_mean.npy')
         mu = mu.mean(1).mean(1)  # average over pixels to obtain the mean (BGR) pixel values
         print 'mean-subtracted values:', zip('BGR', mu)
-        
+
         # create transformer for the input called 'data'
         transformer = caffe.io.Transformer({'data': net.blobs['data'].data.shape})
 
