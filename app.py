@@ -6,13 +6,17 @@ from classifier.classifier import Classifier
 
 app = Flask(__name__)
 
-@app.route('/classify')
+@app.route('/classify', methods=['POST'])
 def classify():
-    filename = request.args.get("filename")
-    c = Classifier()
-    res = c.classify_image(filename)
-    formatted = _format_results(res)
-    return jsonify(formatted)
+    tmpfd, tmpfile = tempfile.mkstemp()
+    tmpfd.write(request.data)
+    try:
+        c = Classifier()
+        res = c.classify_image(tmpfile)
+        formatted = _format_results(res)
+        return jsonify(formatted)
+    finally:
+        tmpfd.close()
 
 
 def _format_results(results):
