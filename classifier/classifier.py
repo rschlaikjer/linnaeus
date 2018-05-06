@@ -26,7 +26,8 @@ class Classifier(object):
                         caffe.TEST)     # use test mode (e.g., don't perform dropout)
 
         # load the mean ImageNet image (as distributed with Caffe) for subtraction
-        mu = np.load(caffe_root + 'python/caffe/imagenet/ilsvrc_2012_mean.npy')
+        mu = np.load(os.path.join(
+            caffe_root, 'python/caffe/imagenet/ilsvrc_2012_mean.npy'))
         mu = mu.mean(1).mean(1)  # average over pixels to obtain the mean (BGR) pixel values
         print 'mean-subtracted values:', zip('BGR', mu)
 
@@ -49,7 +50,7 @@ class Classifier(object):
 
         output_prob = output['prob'][0]  # the output probability vector for the first image in the batch
 
-        labels_file = caffe_root + 'data/ilsvrc12/synset_words.txt'
+        labels_file = os.path.join(caffe_root, 'data/ilsvrc12/synset_words.txt')
         labels = np.loadtxt(labels_file, str, delimiter='\t')
         srtd = output_prob.argsort()
         top_ten = srtd[:-10:-1]
