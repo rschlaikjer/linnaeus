@@ -28,6 +28,9 @@ ENV PYTHONPATH $PYCAFFE_ROOT:$PYTHONPATH
 ENV PATH $CAFFE_ROOT/build/tools:$PYCAFFE_ROOT:$PATH
 RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 
+RUN wget http://dl.caffe.berkeleyvision.org/bvlc_reference_caffenet.caffemodel \
+    -O $CAFFE_ROOT/models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel
+
 WORKDIR /workspace
 COPY . /workspace
 RUN pip install -r requirements.txt
