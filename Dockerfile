@@ -32,10 +32,10 @@ RUN wget http://dl.caffe.berkeleyvision.org/bvlc_reference_caffenet.caffemodel \
     -O $CAFFE_ROOT/models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel
 
 RUN wget http://dl.caffe.berkeleyvision.org/caffe_ilsvrc12.tar.gz \
-    -O $CAFFE_ROOT/data/ilsvrc1/caffe_ilsvrc12.tar.gz
-RUN tar xf $CAFFE_ROOT/data/ilsvrc1/caffe_ilsvrc12.tar.gz \
-    -C $CAFFE_ROOT/data/ilsvrc1/
-RUN rm $CAFFE_ROOT/data/ilsvrc1/caffe_ilsvrc12.tar.gz
+    -O $CAFFE_ROOT/data/ilsvrc12/caffe_ilsvrc12.tar.gz
+RUN tar xf $CAFFE_ROOT/data/ilsvrc12/caffe_ilsvrc12.tar.gz \
+    -C $CAFFE_ROOT/data/ilsvrc12/
+RUN rm $CAFFE_ROOT/data/ilsvrc12/caffe_ilsvrc12.tar.gz
 
 WORKDIR /workspace
 COPY . /workspace
